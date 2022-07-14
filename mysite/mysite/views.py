@@ -2,14 +2,18 @@ from unittest import result
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .forms import UserForms
+from service.models import Service
 def homePage(request):
+    # serviceData = Service.objects.all()
+    # for a in serviceData:
+    #     print(a)
     output = 0
     if request.method == "GET":
         output = request.GET.get('output')
 
     data = {
         'title': "Home Page",
-        'bdata': "This is home page",
+        'bdata': "Home Page",
         'clist' : ['php', 'Java', 'Django'],
         'output' :output
 
