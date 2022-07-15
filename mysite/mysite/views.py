@@ -7,16 +7,9 @@ def homePage(request):
     # serviceData = Service.objects.all()
     # for a in serviceData:
     #     print(a)
-    output = 0
-    if request.method == "GET":
-        output = request.GET.get('output')
-
     data = {
         'title': "Home Page",
         'bdata': "Home Page",
-        'clist' : ['php', 'Java', 'Django'],
-        'output' :output
-
     }
     return render(request, "index.html", data)
 
@@ -45,8 +38,6 @@ def userform(request):
             # return HttpResponseRedirect(url)
     except:
         pass
-
-
     return render(request, "userform.html", data)
 
 def submitform(request):
