@@ -4,12 +4,11 @@ from django.shortcuts import render
 from .forms import UserForms
 from service.models import Service
 def homePage(request):
-    # serviceData = Service.objects.all()
-    # for a in serviceData:
-    #     print(a)
+    serviceData = Service.objects.all()
     data = {
-        'title': "Home Page",
-        'bdata': "Home Page",
+        'title': "HOME PAGE",
+        'bdata': "HOME PAGE",
+        'serviceData': serviceData
     }
     return render(request, "index.html", data)
 
@@ -80,3 +79,6 @@ def calculator(request):
         pass
 
     return render (request,'calculator.html',data)
+
+
+
