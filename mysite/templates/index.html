@@ -1,25 +1,27 @@
 {% extends 'base.html' %}#
 {% block content %}
-   <center>  <h3>{{bdata}}</h3></br> </center>
+    <marquee style="background: gray;  padding:8px;">
+      {% for new in newsData  %}
+      <a href= "#" style= "color: white;"><b>{{new.news_title}}</b></a> 
+      &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+      &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; 
+      {% endfor %}
+    </marquee>
    <div class="container-fluid text-center">
+      <h3>{{bdata}}</h3>
       <h2>SERVICES</h2>
       <h4>What we offer</h4>
       <br>
       <div style = "border-style: solid; background:rgb(247, 241, 241); padding:20px" >
         <div class="row" >
           {% for service in serviceData  %}
-          
           <div class="col-sm-4">
             <span class="glyphicon {{service.service_icon}}"></span>
             <h4>{{service.service_title}}</h4>
             <p>{{service.service_des}} </p><br/><br/>
           </div>
           {% endfor %}
-
         </div><br><br>
-        
-
-
       </div>
     </div>
     <br/><br/><br/><br/>.

@@ -3,12 +3,21 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .forms import UserForms
 from service.models import Service
+from news.models import News
+
 def homePage(request):
+    newsData = News.objects.all()
     serviceData = Service.objects.all()
+    # you can order it by .order_by(column name) 
+    # if - before column name then order desending else assending
+
+    # To limit data you can use slicing technique [:index till you want] (no negative index)
+
     data = {
         'title': "HOME PAGE",
         'bdata': "HOME PAGE",
-        'serviceData': serviceData
+        'serviceData': serviceData,
+        'newsData': newsData
     }
     return render(request, "index.html", data)
 
