@@ -21,6 +21,13 @@ def homePage(request):
     }
     return render(request, "index.html", data)
 
+def detailPage(request, newsid):
+    newsdetails = News.objects.get(id = newsid)
+    data = {
+        'newsdetail': newsdetails
+    }
+    return render(request, 'newsdetail.html', data)
+
 def course(request):
     return HttpResponse("Welcome to course page")
 
@@ -89,5 +96,5 @@ def calculator(request):
 
     return render (request,'calculator.html',data)
 
-
-
+def aboutus(request):
+    return render(request, 'aboutus.html')

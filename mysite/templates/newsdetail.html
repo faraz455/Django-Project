@@ -1,0 +1,27 @@
+{%extends 'base.html' %}
+{%block content%}
+  <style>
+  .container-fluids {
+    padding: 60px 50px;
+  }
+  .bg-greyy {
+    background-color: #f6f6f6;
+  }
+  .logoo {
+    font-size: 200px;
+  }
+  </style>
+
+<!-- Container (About Section) -->
+<div class="container-fluids bg-greyy">
+  <div class="row">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-globe logoo"></span>
+    </div>
+    <div class="col-sm-8">
+      <h2>{{newsdetail.news_title}}</h2>
+      <p> {{newsdetail.news_des | safe}} </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}
