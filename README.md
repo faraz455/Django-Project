@@ -1,7 +1,16 @@
 # Django-Project
+This is basic Django project which performs all the django functionalities to understand the basic Django framework to advance level.
 
-## To create model
+## Requirements
+1- Python
+2- Django (python -m pip install Django)
+3- Tinymce (pip install django-tinymce)
+4- BootStrap
 
+## To run code
+Command: python manage.py runserver
+
+## To create model (Database)
 1- Run python manage.py startapp model name
 2- Create fields in model.py of model
 3- Add model name in installed apps of setting.py
