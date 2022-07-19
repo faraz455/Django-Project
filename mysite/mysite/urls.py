@@ -28,5 +28,6 @@ urlpatterns = [
     path('calculator/', views.calculator, name='calculator'),
     path('aboutus/',views.aboutus),
     path('newsdetail/<newsid>', views.detailPage, name='detailPage'),
-    path('simple/',views.Simple.as_view(), name = 'simple')
+    path('service/',views.Services.as_view(), name = 'service'),
+    path('service/<int:id>',views.Services.as_view())
 ]
