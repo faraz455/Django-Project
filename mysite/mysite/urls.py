@@ -18,6 +18,7 @@ from django.urls import path, include
 from mysite import views
 from rest_framework.routers import DefaultRouter
 
+# Defaults route create for NewsViewSet that are included ahead of a path
 router = DefaultRouter()
 router.register('news-viewset',views.NewsViewSet)
 

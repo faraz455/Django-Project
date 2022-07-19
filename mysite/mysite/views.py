@@ -8,6 +8,8 @@ from rest_framework import generics, viewsets
 from django.forms.models import model_to_dict
 from .serializers import NewsSerializer
 
+## Class made to perform HTTP methods such as GET, POST, PUT, PATCH and so on
+# 1- Uses the APIView library to do methods(GET,POST) manaully
 class Simple(APIView):
 
     # CREATE
@@ -23,48 +25,63 @@ class Simple(APIView):
         newsData = News.objects.all().values()
         return JsonResponse({'data': list(newsData)})
 
+# 1- Uses the APIView but ot uses Serializer class from Serializer.py
 class NewsClass(APIView):
     # CREATE
     def post(self, request):
+        # Serialize all data
         serializer = NewsSerializer(data = request.data)
+        # Raise exception in case of any field mistake
         serializer.is_valid(raise_exception = True)
+        # Data saved to model
         serializer.save()
         return JsonResponse({'data': serializer.data})
     
     # READ
     def get(self,request):
+        # Gets all the data from news model
         newsData = News.objects.all().values()
         # print(NewsSerializer(newsData, many = True).data)
         return JsonResponse({'data': NewsSerializer(newsData, many = True).data})
 
     # UPDATE
     def put(self,request, *args, **kwargs):
+        # Takes id from the url
         model_id = kwargs.get('id', None)
+        # Checks if id present or not in url
         if not model_id:
             return JsonResponse({"error": "method /PUT/ not allowed" })
+        # checks if id there in model
         try:
             instance = News.objects.get(id = model_id)
         except:
             return JsonResponse({"error": "object does not exist", "model id": model_id})
-
+        # Serialize give data and id to be changed
         serializer = NewsSerializer(data = request.data, instance = instance)
         serializer.is_valid(raise_exception = True)
         serializer.save()
         return JsonResponse({"data": serializer.data})
 
+# 2- Uses generics ListCreateAPIView
 class NewsGenerics(generics.ListCreateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
 
+# 2- Uses generics ListCreateAPIView
 class NewsGenericsUpdate(generics.UpdateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+    # takes field to be check while updating model data
     lookup_field = "id"
 
+# 3- Uses Viewsets.ModelViewSet that takes 2 things
 class NewsViewSet(viewsets.ModelViewSet):
+    # Takes all data of model class
     queryset = News.objects.all()
+    # Serializer class is set
     serializer_class = NewsSerializer
 
+# Below functions are use to render html pages
 def homePage(request):
     newsData = News.objects.all()
     serviceData = Service.objects.all()
