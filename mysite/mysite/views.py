@@ -1,9 +1,26 @@
 from unittest import result
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .forms import UserForms
 from service.models import Service
 from news.models import News
+from rest_framework.views import APIView
+from django.forms.models import model_to_dict
+
+class Simple(APIView):
+
+    # CREATE
+    def post(self, request):
+        news = News.objects.create(
+            news_title = request.data['news_title'],
+            news_des = request.data['news_des']
+        )
+        return JsonResponse({'data': model_to_dict(news)})
+    
+    # READ
+    def get(self,request):
+        newsData = News.objects.all().values()
+        return JsonResponse({'data': list(newsData)})
 
 def homePage(request):
     newsData = News.objects.all()
