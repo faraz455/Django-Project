@@ -4,7 +4,7 @@ from .forms import UserForms
 from service.models import Service
 from news.models import News
 from rest_framework.views import APIView
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from django.forms.models import model_to_dict
 from .serializers import NewsSerializer
 
@@ -60,6 +60,10 @@ class NewsGenericsUpdate(generics.UpdateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     lookup_field = "id"
+
+class NewsViewSet(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
 
 def homePage(request):
     newsData = News.objects.all()
