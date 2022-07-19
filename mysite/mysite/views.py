@@ -1,10 +1,10 @@
-import json
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .forms import UserForms
 from service.models import Service
 from news.models import News
 from rest_framework.views import APIView
+from rest_framework import generics
 from django.forms.models import model_to_dict
 from .serializers import NewsSerializer
 
@@ -23,7 +23,7 @@ class Simple(APIView):
         newsData = News.objects.all().values()
         return JsonResponse({'data': list(newsData)})
 
-class Services(APIView):
+class NewsClass(APIView):
     # CREATE
     def post(self, request):
         serializer = NewsSerializer(data = request.data)
@@ -51,6 +51,15 @@ class Services(APIView):
         serializer.is_valid(raise_exception = True)
         serializer.save()
         return JsonResponse({"data": serializer.data})
+
+class NewsGenerics(generics.ListCreateAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+class NewsGenericsUpdate(generics.UpdateAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+    lookup_field = "id"
 
 def homePage(request):
     newsData = News.objects.all()

@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from mysite import views
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.homePage, name='homePage'),
@@ -28,6 +27,8 @@ urlpatterns = [
     path('calculator/', views.calculator, name='calculator'),
     path('aboutus/',views.aboutus),
     path('newsdetail/<newsid>', views.detailPage, name='detailPage'),
-    path('service/',views.Services.as_view(), name = 'service'),
-    path('service/<int:id>',views.Services.as_view())
+    path('news/',views.NewsClass.as_view(), name = 'service'),
+    path('news/<int:id>',views.NewsClass.as_view()),
+    path('news-generics/',views.NewsGenerics.as_view()),
+    path('news-generics/<int:id>',views.NewsGenericsUpdate.as_view()),
 ]
