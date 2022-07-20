@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from mysite import views
 from rest_framework.routers import DefaultRouter
+from django.conf import settings
 
 # Defaults route create for NewsViewSet that are included ahead of a path
 router = DefaultRouter()
 router.register('news-viewset',views.NewsViewSet)
 
 urlpatterns = [
-    path('',include(router.urls)),
+    path('news/',include(router.urls)),
     path('admin/', admin.site.urls),
     path('', views.homePage, name='homePage'),
     path('course/', views.course, name='course'),
@@ -38,3 +39,9 @@ urlpatterns = [
     path('news-generics/',views.NewsGenerics.as_view()),
     path('news-generics/<int:id>',views.NewsGenericsUpdate.as_view()),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__', include(debug_toolbar.urls))
+    ] + urlpatterns
