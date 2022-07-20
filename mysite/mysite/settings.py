@@ -42,9 +42,13 @@ INSTALLED_APPS = [
     'service',
     'tinymce',
     'news',
-    'debug_toolbar'
+    'user',
+    'debug_toolbar',
+    'django_seed',
     
 ]
+
+AUTH_USER_MODEL = "user.CustomUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

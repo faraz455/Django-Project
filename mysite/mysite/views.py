@@ -1,7 +1,8 @@
+from random import randint
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .forms import UserForms
-from service.models import Service
+from service.models import Service,  Blog, Car
 from news.models import News
 from rest_framework.views import APIView
 from rest_framework import generics, viewsets
@@ -173,3 +174,19 @@ def calculator(request):
 
 def aboutus(request):
     return render(request, 'aboutus.html')
+
+
+# for seeding adding random data to model and then run this excute function by yourself
+from django_seed  import Seed
+
+seeder = Seed.seeder()
+# seeder.add_entity(Blog,20)
+car_names = ['Corola', 'Honda', 'Mercedes', 'BMW']
+seeder.add_entity(Car,100,{
+    'name': lambda x: car_names[randint(0,len(car_names)-1)]
+})
+
+def execute():
+    seeder.execute()
+    print("seeding completed")
+

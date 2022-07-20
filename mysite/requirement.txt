@@ -1,0 +1,22 @@
+
+
+pip install django-debug-toolbar
+
+
+
+debug toolbar
+
+Installed apps => debug_toolbar
+middleware => 'debug_toolbar.middleware.DebugToolbarMiddleware' 
+installed_ips => ('127.0.0.1')
+
+get postgresql then pgadmin4 to view (127.0.0.1/pgadmin4)
+sudo apt install pgadmin4
+sudo /usr/pgadmin4/bin/setup-web.sh (1 tme setup)
+pip install psycopg2_binary
+DATABASES => default change (see setting.py)
+after that migration you data transfer to postgresql
+
+pip install python-decouple
+
+pip install django-seed
