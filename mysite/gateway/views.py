@@ -1,4 +1,3 @@
-from os import access
 import jwt
 from .models import Jwt
 from user.models import CustomUser
@@ -7,7 +6,7 @@ from django.conf import settings
 import random
 import string
 from rest_framework.views import APIView
-from .serializer import LoginSerializer, RegisterSerializer
+from .serializer import LoginSerializer, RegisterSerializer, RefreshSerializer
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 
@@ -32,29 +31,33 @@ def get_refresh_token():
         algorithm="HS256"
     )
 
+# Login view created to login the registered user
 class LoginView(APIView):
     serializer_class = LoginSerializer
     def post(self,request):
+        # valids the data
         serializer = self.serializer_class(data= request.data)
         serializer.is_valid(raise_exception = True)
 
+        # check if the user name and password matches the existing user data
         user = authenticate(
             username = serializer.validated_data['email'], 
             password = serializer.validated_data['password']
             )
-        
+        # incase user doesnt exist
         if not user:
             return Response({"Error": " Invalid Email or password"}, status="400")
-
+        Jwt.objects.filter(user_id = user.id).delete()
+        # access and refresh token created
         access = get_access_token({"user_id": user.id})
         refresh = get_refresh_token()
-
+        # Jwt class object created
         Jwt.objects.create(
-            user_id = user.id , access = access, refresh = refresh
+            user_id = user.id , access = access.decode(), refresh = refresh.decode()
         )
-
         return Response({"access": access, "refresh" : refresh})
 
+# Register view created to register the new user
 class RegisterView(APIView):
     serializer_class = RegisterSerializer
 
@@ -65,3 +68,44 @@ class RegisterView(APIView):
         CustomUser.objects._create_user(**serializer.validated_data)
 
         return Response({"success": "user created."})
+
+# Function used by class below to varify the token
+def varify_token(token):
+    # decode the token
+    try:
+        decoded_data = jwt.decode(token,settings.SECRET_KEY, algorithms="HS256")
+    except Exception:
+        return None
+    # check if token expires
+    exp = decoded_data['exp']
+    if datetime.now().timestamp() > exp:
+        return None
+    return decoded_data
+
+# Refresh view created to refresh the token
+class RefreshView(APIView):
+    serializer_class = RefreshSerializer
+    
+    def post(self,request):
+        serializer = self.serializer_class(data= request.data)
+        serializer.is_valid(raise_exception=True)
+        # gets the object
+        try:
+            active_jwt = Jwt.objects.get(
+                refresh= serializer.validated_data["refresh"]
+                )
+        except Jwt.DoesNotExist:
+            return Response({"error":"Refresh token not found"}, status="400")
+        # Response whether token expired or not
+        if not varify_token(serializer.validated_data["refresh"]):
+            return Response({"error": "Token is invalid or expired"})
+        # Gets the access and refresh token
+        access = get_access_token({"user_id": active_jwt.user.id})
+        refresh = get_refresh_token()
+        # Assign the access and refresh token
+        active_jwt.access = access.decode()
+        active_jwt.refresh = refresh.decode()
+        active_jwt.save()
+
+        return Response({"access": access, "refresh" : refresh})
+

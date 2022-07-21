@@ -10,3 +10,5 @@ class RegisterSerializer(serializers.Serializer):
     name = serializers.CharField() 
 
 
+class RefreshSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
