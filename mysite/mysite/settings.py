@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'user',
     'debug_toolbar',
     'django_seed',
+    'gateway',
     
 ]
 

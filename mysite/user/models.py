@@ -3,15 +3,21 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 # Create your models here.
 class CustomeUserManager(BaseUserManager):
+    # funtion that create users and email is neccesary
     def _create_user(self,email, password, **extra_fields):
         if not email:
             raise ValueError('Email is required')
         email = self.normalize_email(email)
+        # User created
         user = self.model(email=email, **extra_fields)
+        # Password hashing
         user.set_password(password)
+        # User gets saved
         user.save()
         return user
 
+    # Function that create super user with some mendatory default fields
+    # After neccesary checks it calls _create_user function
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -20,13 +26,14 @@ class CustomeUserManager(BaseUserManager):
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError("Super user must have is_staff equal to True")
-
         if extra_fields.get('is_superuser') is not True:
             raise ValueError("Super user must have is_superuser equal to True")
 
         return self._create_user(email, password, **extra_fields)
 
+# Class used to create custom user with objec having custome user manager
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    # field required for a user
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=25)
     created_at = models.DateTimeField(auto_now_add = True)

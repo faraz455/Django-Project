@@ -26,6 +26,7 @@ router.register('news-viewset',views.NewsViewSet)
 urlpatterns = [
     path('news/',include(router.urls)),
     path('admin/', admin.site.urls),
+    path('gateway/', include("gateway.urls")),
     path('', views.homePage, name='homePage'),
     path('course/', views.course, name='course'),
     path('course/<int:courseid>', views.courseDetail, name='courseDetail'),
