@@ -9,7 +9,10 @@ from rest_framework.views import APIView
 from .serializer import LoginSerializer, RegisterSerializer, RefreshSerializer
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .authentication import Authentication
 
+# Get random data for refresh token
 def get_random(length):
     return ''.join(random.choices(string.ascii_uppercase +string.digits,k =length))
 
@@ -57,7 +60,7 @@ class LoginView(APIView):
         )
         return Response({"access": access, "refresh" : refresh})
 
-# Register view created to register the new user
+# Register view created to register the new user 
 class RegisterView(APIView):
     serializer_class = RegisterSerializer
 
@@ -68,19 +71,6 @@ class RegisterView(APIView):
         CustomUser.objects._create_user(**serializer.validated_data)
 
         return Response({"success": "user created."})
-
-# Function used by class below to varify the token
-def varify_token(token):
-    # decode the token
-    try:
-        decoded_data = jwt.decode(token,settings.SECRET_KEY, algorithms="HS256")
-    except Exception:
-        return None
-    # check if token expires
-    exp = decoded_data['exp']
-    if datetime.now().timestamp() > exp:
-        return None
-    return decoded_data
 
 # Refresh view created to refresh the token
 class RefreshView(APIView):
@@ -97,7 +87,7 @@ class RefreshView(APIView):
         except Jwt.DoesNotExist:
             return Response({"error":"Refresh token not found"}, status="400")
         # Response whether token expired or not
-        if not varify_token(serializer.validated_data["refresh"]):
+        if not Authentication.varify_token(serializer.validated_data["refresh"]):
             return Response({"error": "Token is invalid or expired"})
         # Gets the access and refresh token
         access = get_access_token({"user_id": active_jwt.user.id})
@@ -109,3 +99,10 @@ class RefreshView(APIView):
 
         return Response({"access": access, "refresh" : refresh})
 
+
+# login user sercure info
+class GetSecureInfo(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        print("User name:", request.user)
+        return Response({"data": "This is sercure infomation"})

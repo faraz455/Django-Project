@@ -62,6 +62,10 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("gateway.authentication.Authentication",)
+}
+
 INTERNAL_IPS = (
     "127.0.0.1",
 )
