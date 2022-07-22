@@ -99,9 +99,11 @@ class RefreshView(APIView):
 
         return Response({"access": access, "refresh" : refresh})
 
-
 # login user sercure info
+# in case of access denied you need to updatea bearer token 
+# which is access token when login by user
 class GetSecureInfo(APIView):
+
     permission_classes = [IsAuthenticated]
     def get(self,request):
         print("User name:", request.user)

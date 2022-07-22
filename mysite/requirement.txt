@@ -1,9 +1,6 @@
-
+### THIS NOT CONTAIN ALL REQUIRED NOW ###
 
 pip install django-debug-toolbar
-
-
-
 debug toolbar
 
 Installed apps => debug_toolbar
@@ -24,6 +21,3 @@ pip install django-seed
 JWT Token Authentication
 pip install pyjwt
 pip install DateTime
-
-access token needs to be provide by user
-refresh token given by server to issue user
