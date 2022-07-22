@@ -21,3 +21,6 @@ pip install django-seed
 JWT Token Authentication
 pip install pyjwt
 pip install DateTime
+
+for cloudinary storage
+pip install django_cloudinary_storage
