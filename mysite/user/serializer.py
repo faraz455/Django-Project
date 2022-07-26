@@ -1,16 +1,25 @@
 from pyexpat import model
-from attr import field, fields
 from rest_framework import serializers
-from .models import CustomUser, UserProfile
+from .models import CustomUser, User_Profile, Address_Global
+from drf_writable_nested import WritableNestedModelSerializer
 
 class CustomUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = CustomUser
         fields = ('email', 'name', 'created_at', 'updated_at')
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()
+class Address_GlobalSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = UserProfile
+        model = Address_Global
+        fields = "__all__"
+
+class User_ProfileSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
+    user = CustomUserSerializer()
+    address_info = Address_GlobalSerializer()
+
+    class Meta:
+        model = User_Profile
         fields = '__all__'
 
