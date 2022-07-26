@@ -13,6 +13,7 @@ urlpatterns = [
     path('news/',include(router.urls)), 
     path('admin/', admin.site.urls),
     path('gateway/', include("gateway.urls")),
+    path('eventControler/', include("eventControler.urls")),
     path('user-main/', include('user.urls')),
     path('', views.homePage, name='homePage'),
     path('course/', views.course, name='course'),

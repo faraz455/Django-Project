@@ -24,3 +24,7 @@ pip install DateTime
 
 for cloudinary storage
 pip install django_cloudinary_storage
+
+for create function of nested serializer
+pip install drf-writable-nested
+
