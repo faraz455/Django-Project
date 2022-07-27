@@ -28,3 +28,14 @@ pip install django_cloudinary_storage
 for create function of nested serializer
 pip install drf-writable-nested
 
+pip install celery
+
+rabbit mq
+store queues and send necesary message whenever it is needed
+
+refresh Token
+get secure information (Authentication)
+userprofile view and store profile picture on django_cloudinary_storage
+select_related and prefetch_related queries
+complex queries
+

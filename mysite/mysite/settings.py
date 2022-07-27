@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
-
+# from celery.backends import amqp
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+# Celery setup with rabbitmq
+CELERY_BROKER_URL = config("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = config("CELERY_BROKER_URL")
 # Application definition
 
 INSTALLED_APPS = [
