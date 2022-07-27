@@ -1,19 +1,38 @@
 # Django-Project
-This is basic Django project which performs all the django functionalities to understand the basic Django framework to advance level.
+Markup :This is basic ___Django project___ which performs all the django functionalities to understand from Basic Django Rest Framework to Advance level. It contains ___Model View Templete___ architecture and ___Django Rest Framework___ as well
 
-## Requirements
-1- Python
-2- Django (python -m pip install Django)
-3- Tinymce (pip install django-tinymce)
-4- BootStrap
+## Project Description
 
-## To run code
-Command: python manage.py runserver
+ Markup : - [x] Models
+          - [x] Serializers
+          - [x] Views
+          - [x] Postgres DB
+          - [x] Authentications
+          - [x] Tokens (JWT)
+          - [x] Exception Handling
+          - [x] Cloudinary Storage
+          - [x] Complex Queries
+          - [x] Aysnc Operations
 
-## To create model (Database)
-1- Run python manage.py startapp model name
-2- Create fields in model.py of model
-3- Add model name in installed apps of setting.py
-4- Run python manage.py makemigration
-5- Run python manage.py migrate
-6- Register model in admin.py to show desired columns to admin
+
+## To run code (Server)
+Command: python3 manage.py runserver
+
+## To create Super User
+commanad: python3 manage.py createsuperuser
+
+## To create App
+command: python3 manage.py startapp <app Name>
+
+## Make change in Model DB
+command: python3 manage.py makemigrations
+command: python3 manage.py migrate
+
+## To run Celery 
+command: celery -A mysite beat -l info 
+
+## For Rabbitmq
+command: sudo docker-compose up
+
+## To free Port
+command sudo kill -9 `sudo lsof -t -i:<port no>`

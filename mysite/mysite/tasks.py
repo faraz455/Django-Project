@@ -1,4 +1,3 @@
-from logging import exception
 from celery import task
 import time
 import requests
